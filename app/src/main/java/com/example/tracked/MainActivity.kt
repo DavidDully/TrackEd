@@ -33,7 +33,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlin.math.cos
 import kotlin.math.sin
-
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,7 +151,6 @@ fun BottomNavigationBar(navController: NavHostController, onFabClick: () -> Unit
     }
 }
 
-
 @Composable
 fun HomeScreen() {
     Column(
@@ -161,13 +161,6 @@ fun HomeScreen() {
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = "TrackEd",
-            style = MaterialTheme.typography.headlineLarge,
-            textAlign = TextAlign.Start,
-            modifier = Modifier.padding(top = 4.dp, bottom = 16.dp)
-        )
-
-        Text(
             text = "Study Progress",
             style = MaterialTheme.typography.titleLarge,
             textAlign = TextAlign.Start,
@@ -176,6 +169,7 @@ fun HomeScreen() {
                 .padding(bottom = 8.dp)
         )
 
+        // Top 4 Bento Cards
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxWidth(),
@@ -191,21 +185,47 @@ fun HomeScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Adjusted motivational/reminder box: Font size adjusted for text
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(140.dp),
+                .height(70.dp),  // Reduced height from 100.dp to 80.dp
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 2.dp, bottom = 8.dp, start = 12.dp, end = 12.dp),
+                    .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Text on the left, in two lines, bold, with adjusted font size
+                Text(
+                    text = "Modules",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Button(onClick = { /* TODO: view modules */ }) {
+                    Text("View")
+                }
+            }
+        }
+
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Motivational/Gauge Card (unchanged)
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(130.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 0.dp, bottom = 8.dp, start = 12.dp, end = 12.dp),  // Reduced top padding from 2.dp to 0.dp
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                // Left text column
                 Column(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.Center,
@@ -215,7 +235,7 @@ fun HomeScreen() {
                         text = "Doing a good job,",
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp  // Adjusted font size
+                            fontSize = 20.sp
                         ),
                         textAlign = TextAlign.Start
                     )
@@ -223,12 +243,12 @@ fun HomeScreen() {
                         text = "Keep it up",
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp  // Adjusted font size
+                            fontSize = 20.sp
                         ),
                         textAlign = TextAlign.Start
                     )
                 }
-                // Gauge on the right
+                // Right gauge
                 Column(
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Center
@@ -244,6 +264,7 @@ fun HomeScreen() {
             }
         }
 
+
         Spacer(modifier = Modifier.height(16.dp))
 
         // Horizontal scrollable row of study session boxes
@@ -256,14 +277,14 @@ fun HomeScreen() {
                 StudySessionCard(
                     title = "Photosynthesis",
                     subject = "Science",
-                    titleFontSize = 24.sp  // Adjustable font size for topic text
+                    titleFontSize = 20.sp
                 )
             }
             item {
                 StudySessionCard(
                     title = "Waste Management",
                     subject = "Science",
-                    titleFontSize = 24.sp  // Adjustable font size for topic text
+                    titleFontSize = 20.sp
                 )
             }
         }
@@ -307,11 +328,14 @@ fun StudySessionCard(title: String, subject: String, titleFontSize: TextUnit = 2
                     textAlign = TextAlign.Start
                 )
             }
-            Button(
+            IconButton(
                 onClick = { /* Placeholder */ },
                 modifier = Modifier.align(Alignment.BottomEnd)
             ) {
-                Text("Start")
+                Icon(
+                    imageVector = Icons.Default.ArrowForward,
+                    contentDescription = "Arrow"
+                )
             }
         }
     }
@@ -479,4 +503,3 @@ fun AddOptionsDialog(onDismiss: () -> Unit, onOptionSelected: (String) -> Unit) 
         }
     }
 }
-
