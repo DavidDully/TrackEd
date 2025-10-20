@@ -203,7 +203,7 @@ fun HomeScreen() {
                     style = MaterialTheme.typography.titleMedium
                 )
                 Button(onClick = { /* TODO: view modules */ }) {
-                    Text("View")
+                    Text("View All")
                 }
             }
         }
