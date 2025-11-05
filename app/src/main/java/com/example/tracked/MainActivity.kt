@@ -64,10 +64,31 @@ fun StudyHabitTrackerApp() {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            composable("home") { HomeScreen() }
+            composable("home") { HomeScreen(navController) }
             composable("study") { StudyScreen() }
             composable("progress") { ProgressScreen() }
             composable("profile") { ProfileScreen() }
+            composable("modules") { ModulesScreen(navController) }
+            composable("science") { ScienceScreen(navController) }
+
+            composable("module/{moduleNumber}") { backStackEntry ->
+                val moduleNumber = backStackEntry.arguments?.getString("moduleNumber")?.toIntOrNull()
+                if (moduleNumber != null) {
+                    ModuleDetailScreen(navController, moduleNumber)
+                } else {
+                    Text("Invalid module number")
+                }
+            }
+
+            // Topic screen with String parameter
+            composable("topic/{topicId}") { backStackEntry ->
+                val topicId = backStackEntry.arguments?.getString("topicId")
+                if (topicId != null) {
+                    TopicScreen(navController, topicId)
+                } else {
+                    Text("Invalid topic ID")
+                }
+            }
         }
 
         if (showAddDialog) {
@@ -152,7 +173,7 @@ fun BottomNavigationBar(navController: NavHostController, onFabClick: () -> Unit
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -202,8 +223,9 @@ fun HomeScreen() {
                     text = "Modules",
                     style = MaterialTheme.typography.titleMedium
                 )
-                Button(onClick = { /* TODO: view modules */ }) {
-                    Text("View All")
+                Button(onClick = { navController.navigate("modules") }) {
+
+                Text("View All")
                 }
             }
         }
@@ -503,3 +525,4 @@ fun AddOptionsDialog(onDismiss: () -> Unit, onOptionSelected: (String) -> Unit) 
         }
     }
 }
+

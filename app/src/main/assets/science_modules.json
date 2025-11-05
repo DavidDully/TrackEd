@@ -1,0 +1,95 @@
+{
+  "navigation": [
+    {
+      "module_number": 5,
+      "module_title": "Motion in One Dimension",
+      "topics": [
+        {
+          "topic_id": "M5_T1",
+          "title": "Distance and Displacement",
+          "subtopics": [
+            "Definition of Motion",
+            "Reference Point",
+            "Difference Between Distance and Displacement"
+          ]
+        },
+        {
+          "topic_id": "M5_T2",
+          "title": "Speed and Velocity",
+          "subtopics": [
+            "Meaning of Speed",
+            "Meaning of Velocity",
+            "Average vs Instantaneous Speed",
+            "Formulas and Calculations"
+          ]
+        },
+        {
+          "topic_id": "M5_T3",
+          "title": "Acceleration",
+          "subtopics": [
+            "Definition of Acceleration",
+            "Positive and Negative Acceleration",
+            "Acceleration Formula"
+          ]
+        }
+      ]
+    },
+    {
+      "module_number": 6,
+      "module_title": "Wave Motion",
+      "topics": [
+        {
+          "topic_id": "M6_T1",
+          "title": "Nature of Waves",
+          "subtopics": [
+            "Wave Pulse and Wave Train",
+            "Energy Transfer in Waves",
+            "Transverse and Longitudinal Waves"
+          ]
+        },
+        {
+          "topic_id": "M6_T2",
+          "title": "Wave Characteristics",
+          "subtopics": [
+            "Crest and Trough",
+            "Amplitude",
+            "Wavelength",
+            "Frequency and Period",
+            "Wave Speed Equation"
+          ]
+        },
+        {
+          "topic_id": "M6_T3",
+          "title": "Nature of Sound",
+          "subtopics": [
+            "Sound as a Longitudinal Wave",
+            "Medium of Sound Travel",
+            "Pitch, Loudness, and Quality",
+            "Infrasonic and Ultrasonic Waves"
+          ]
+        },
+        {
+          "topic_id": "M6_T4",
+          "title": "Light",
+          "subtopics": [
+            "Light as a Wave and Particle",
+            "Sources of Light",
+            "Transparent, Translucent, Opaque Materials",
+            "Color Spectrum and Dispersion"
+          ]
+        },
+        {
+          "topic_id": "M6_T5",
+          "title": "Heat and Temperature",
+          "subtopics": [
+            "Thermal Energy and Temperature",
+            "Celsius, Fahrenheit, and Kelvin Scales",
+            "Conduction",
+            "Convection",
+            "Radiation"
+          ]
+        }
+      ]
+    }
+  ]
+}

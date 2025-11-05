@@ -20,15 +20,17 @@ import coil.compose.AsyncImage
 
 @Composable
 fun ProfileScreen() {
-    // Basic states
     var userName by remember { mutableStateOf(TextFieldValue("John Doe")) }
     var isEditingName by remember { mutableStateOf(false) }
 
-    var isDarkMode by remember { mutableStateOf(false) }
     var isNotificationsEnabled by remember { mutableStateOf(true) }
     var selectedLanguage by remember { mutableStateOf("English") }
 
     var profileImageUri by remember { mutableStateOf<String?>(null) }
+
+    // Dialog states
+    var showPrivacyDialog by remember { mutableStateOf(false) }
+    var showAboutDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -37,14 +39,13 @@ fun ProfileScreen() {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start
     ) {
-        // Title
         Text(
             text = "Profile",
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        // Profile Picture Section
+        // Profile Picture
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -83,16 +84,8 @@ fun ProfileScreen() {
             modifier = Modifier.fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(
-                    text = "Your Name",
-                    style = MaterialTheme.typography.titleMedium
-                )
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text("Your Name", style = MaterialTheme.typography.titleMedium)
 
                 if (isEditingName) {
                     OutlinedTextField(
@@ -101,34 +94,26 @@ fun ProfileScreen() {
                         label = { Text("Enter your name") },
                         modifier = Modifier.fillMaxWidth()
                     )
-
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
-                        TextButton(onClick = { isEditingName = false }) {
-                            Text("Cancel")
-                        }
+                        TextButton(onClick = { isEditingName = false }) { Text("Cancel") }
                         Spacer(modifier = Modifier.width(8.dp))
-                        Button(onClick = { isEditingName = false }) {
-                            Text("Save")
-                        }
+                        Button(onClick = { isEditingName = false }) { Text("Save") }
                     }
                 } else {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
                             text = if (userName.text.isEmpty()) "No name set" else userName.text,
                             style = MaterialTheme.typography.bodyLarge
                         )
                         IconButton(onClick = { isEditingName = true }) {
-                            Icon(
-                                imageVector = Icons.Default.Edit,
-                                contentDescription = "Edit Name"
-                            )
+                            Icon(Icons.Default.Edit, contentDescription = "Edit Name")
                         }
                     }
                 }
@@ -137,37 +122,19 @@ fun ProfileScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Settings Section
+        // Settings Section (Dark Mode Removed)
         Card(
             modifier = Modifier.fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            Column(modifier = Modifier.padding(16.dp)) {
                 Text("Settings", style = MaterialTheme.typography.titleMedium)
-
-                // Dark Mode Toggle
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text("Dark Mode", style = MaterialTheme.typography.bodyLarge)
-                    Switch(
-                        checked = isDarkMode,
-                        onCheckedChange = { isDarkMode = it }
-                    )
-                }
 
                 // Notifications Toggle
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("Notifications", style = MaterialTheme.typography.bodyLarge)
                     Switch(
@@ -179,11 +146,11 @@ fun ProfileScreen() {
                 // Language Preference
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("Language", style = MaterialTheme.typography.bodyLarge)
-                    TextButton(onClick = { /* TODO: show language picker */ }) {
+                    TextButton(onClick = { /* TODO */ }) {
                         Text(selectedLanguage)
                     }
                 }
@@ -192,28 +159,17 @@ fun ProfileScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Account Section
+        // Account Section with Popups
         Card(
             modifier = Modifier.fillMaxWidth(),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            Column(modifier = Modifier.padding(16.dp)) {
                 Text("Account", style = MaterialTheme.typography.titleMedium)
 
-                TextButton(onClick = { /* TODO: open privacy policy */ }) {
-                    Text("Privacy Policy")
-                }
-
-                TextButton(onClick = { /* TODO: open about app */ }) {
-                    Text("About App")
-                }
-
-                TextButton(onClick = { /* TODO: handle logout */ }) {
+                TextButton(onClick = { showPrivacyDialog = true }) { Text("Privacy Policy") }
+                TextButton(onClick = { showAboutDialog = true }) { Text("About App") }
+                TextButton(onClick = { /* TODO logout */ }) {
                     Text("Log Out", color = MaterialTheme.colorScheme.error)
                 }
             }
@@ -221,12 +177,35 @@ fun ProfileScreen() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Footer - App Version
         Text(
             text = "App Version 1.0.0",
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
+        )
+    }
+
+    // 🔹 Privacy Policy Dialog
+    if (showPrivacyDialog) {
+        AlertDialog(
+            onDismissRequest = { showPrivacyDialog = false },
+            title = { Text("Privacy Policy") },
+            text = { Text("Your data is stored locally and never shared externally.") },
+            confirmButton = {
+                TextButton(onClick = { showPrivacyDialog = false }) { Text("Close") }
+            }
+        )
+    }
+
+    // 🔹 About App Dialog
+    if (showAboutDialog) {
+        AlertDialog(
+            onDismissRequest = { showAboutDialog = false },
+            title = { Text("About App") },
+            text = { Text("TrackEd helps you manage academic tasks efficiently.") },
+            confirmButton = {
+                TextButton(onClick = { showAboutDialog = false }) { Text("Close") }
+            }
         )
     }
 }
