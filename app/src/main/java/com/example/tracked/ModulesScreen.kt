@@ -39,17 +39,7 @@ fun ModulesScreen(navController: NavController) {
     Scaffold(
         topBar = { TopAppBar(title = { Text("Subjects") }) },
         containerColor = PaleBlue,
-        snackbarHost = { hostState ->
-            SnackbarHost(hostState = hostState) { data ->
-                Snackbar(
-                    snackbarData = data,
-                    containerColor = AccentBlue.copy(alpha = 0.95f),
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.padding(12.dp)
-                )
-            }
-        }
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -116,10 +106,11 @@ fun ModulesScreen(navController: NavController) {
                             .padding(top = 8.dp),
                         placeholder = { Text("Add a reminder...") },
                         shape = RoundedCornerShape(10.dp),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                        colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = AccentBlue,
                             unfocusedBorderColor = AccentBlue.copy(alpha = 0.35f),
-                            containerColor = SoftSurface,
+                            focusedContainerColor = SoftSurface,
+                            unfocusedContainerColor = SoftSurface
                         ),
                         singleLine = false,
                         maxLines = 3
@@ -161,10 +152,11 @@ fun ModulesScreen(navController: NavController) {
                             IconButton(onClick = { showDatePicker = true }) { Icon(Icons.Default.DateRange, contentDescription = "Pick date") }
                         },
                         shape = RoundedCornerShape(10.dp),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                        colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = AccentBlue,
                             unfocusedBorderColor = AccentBlue.copy(alpha = 0.35f),
-                            containerColor = SoftSurface,
+                            focusedContainerColor = SoftSurface,
+                            unfocusedContainerColor = SoftSurface
                         )
                     )
                 }
