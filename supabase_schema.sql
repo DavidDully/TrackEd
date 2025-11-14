@@ -1,6 +1,5 @@
--- TrackEd Supabase Database Schema
+-- TrackEdbuilddb Supabase Database Schema
 -- Copy and paste this into the SQL Editor in your Supabase dashboard
-
 -- User table (optional - if you want to track user accounts)
 CREATE TABLE IF NOT EXISTS user (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

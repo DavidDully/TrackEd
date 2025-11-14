@@ -1,6 +1,6 @@
-# 📱 TrackEd - Android Frontend
+# 📱 TrackEdbuilddb - Android Frontend
 
-TrackEd is a modern Android application built with **Kotlin** and **Jetpack Compose**.  
+TrackEdbuilddb is a modern Android application built with **Kotlin** and **Jetpack Compose**.
 This repository contains the **frontend** of the app — UI components, screens, and design system.
 
 **Latest changes:**
@@ -30,7 +30,7 @@ Optional but recommended:
 Run this command in your terminal:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/TrackEd.git
+git clone https://github.com/YOUR-USERNAME/TrackEdbuilddb.git
 ```
 
 ---
@@ -57,5 +57,5 @@ Notes:
 ### 4️⃣ Open in Android Studio (recommended)
 
 1. Open Android Studio.
-2. Choose `Open` and select the project folder `TrackEdbuild`.
+2. Choose `Open` and select the project folder `TrackEdbuilddb`.
 3. Let Gradle sync and then click Run to launch on an emulator or connected device.

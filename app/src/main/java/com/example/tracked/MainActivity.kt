@@ -39,6 +39,10 @@ import androidx.compose.material.icons.filled.ArrowForward
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Initialize Supabase
+        SupabaseManager.initialize(this)
+        // Seed database if empty
+        DatabaseSeeder.seedDatabaseIfEmpty(this)
         setContent {
             MaterialTheme {
                 StudyHabitTrackerApp()
@@ -71,12 +75,12 @@ fun StudyHabitTrackerApp() {
             composable("modules") { ModulesScreen(navController) }
             composable("science") { ScienceScreen(navController) }
 
-            composable("module/{moduleNumber}") { backStackEntry ->
-                val moduleNumber = backStackEntry.arguments?.getString("moduleNumber")?.toIntOrNull()
-                if (moduleNumber != null) {
-                    ModuleDetailScreen(navController, moduleNumber)
+            composable("module/{moduleId}") { backStackEntry ->
+                val moduleId = backStackEntry.arguments?.getString("moduleId")
+                if (moduleId != null) {
+                    ModuleDetailScreen(navController, moduleId)
                 } else {
-                    Text("Invalid module number")
+                    Text("Invalid module ID")
                 }
             }
 
