@@ -5,19 +5,14 @@ This repository contains the **frontend** of the app — UI components, screens,
 
 **Latest changes:**
 
-- UI: pale-blue background for Subjects, reminder + calendar UI with Compose DatePicker and snackbars.
-- Commit: `cf4dd4e`
 
 ---
 
 ## 🚀 Getting Started
 
-Follow these steps to clone and open the project in **Android Studio**.
-
 ---
 
 ### 1️⃣ Prerequisites
-
 Before you start, make sure you have the following installed:
 
 - **Android Studio Giraffe / Jellyfish or newer**
