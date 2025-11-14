@@ -3,6 +3,11 @@
 TrackEd is a modern Android application built with **Kotlin** and **Jetpack Compose**.  
 This repository contains the **frontend** of the app — UI components, screens, and design system.
 
+**Latest changes:**
+
+- UI: pale-blue background for Subjects, reminder + calendar UI with Compose DatePicker and snackbars.
+- Commit: `cf4dd4e`
+
 ---
 
 ## 🚀 Getting Started
