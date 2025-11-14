@@ -58,6 +58,13 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("io.coil-kt:coil-compose:2.7.0")
 
+    // Supabase API via Retrofit and OkHttp
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.json)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+    implementation(libs.kotlinx.serialization)
+
     // Testing libraries
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

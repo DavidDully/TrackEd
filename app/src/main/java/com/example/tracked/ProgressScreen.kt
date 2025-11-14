@@ -18,22 +18,56 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
+import android.util.Log
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProgressScreen() {
-    // Simulate weekly study items (replace with real data from ViewModel/database)
-    val weeklyStudyItems = listOf(
-        StudyItem("Task", "Complete Math Homework", status = "Completed"),
-        StudyItem("Assignment", "Submit Physics Report", subject = "Physics", status = "Completed"),
-        StudyItem("Study Session", "Photosynthesis Review", subject = "Science", duration = "25 min", status = "In Progress"),
-        StudyItem("Reminder", "Study Break at 5 PM", status = "Completed"),
-        StudyItem("Goal", "Read 50 pages of Biology", subject = "Biology", status = "Completed"),
-        StudyItem("Task", "Review Chemistry Notes", status = "Failed"),
-        StudyItem("Assignment", "Prepare for History Exam", subject = "History", status = "In Progress"),
-        StudyItem("Study Session", "Waste Management Lecture", subject = "Science", duration = "30 min", status = "Completed"),
-        StudyItem("Reminder", "Call Study Group", status = "In Progress"),
-        StudyItem("Goal", "Achieve 90% in Math Test", subject = "Math", status = "Failed")
-    )
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var studyProgress by remember { mutableStateOf<List<StudyProgressData>>(emptyList()) }
+    var topics by remember { mutableStateOf<List<TopicData>>(emptyList()) }
+    var isLoading by remember { mutableStateOf(true) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(Unit) {
+        scope.launch {
+            try {
+                SupabaseManager.initialize(context)
+                studyProgress = SupabaseManager.getApi().getStudyProgress()
+                topics = SupabaseManager.getApi().getTopics()
+                isLoading = false
+            } catch (e: Exception) {
+                Log.e("Supabase", "Failed to load progress data: ${e.message}")
+                errorMessage = "Failed to load progress data"
+                isLoading = false
+            }
+        }
+    }
+
+    // Create a map of topic_id to topic name for display
+    val topicMap = topics.associateBy { it.id }
+
+    // Simulate weekly study items based on real data (replace with real data from ViewModel/database)
+    val weeklyStudyItems = studyProgress.map { progress ->
+        val topicName = topicMap[progress.topicId]?.name ?: "Unknown Topic"
+        StudyItem("Study Session", topicName, subject = "Science", status = if (progress.progressPercentage >= 100) "Completed" else "In Progress")
+    }.ifEmpty {
+        // Fallback dummy data if no real data
+        listOf(
+            StudyItem("Task", "Complete Math Homework", status = "Completed"),
+            StudyItem("Assignment", "Submit Physics Report", subject = "Physics", status = "Completed"),
+            StudyItem("Study Session", "Photosynthesis Review", subject = "Science", duration = "25 min", status = "In Progress"),
+            StudyItem("Reminder", "Study Break at 5 PM", status = "Completed"),
+            StudyItem("Goal", "Read 50 pages of Biology", subject = "Biology", status = "Completed"),
+            StudyItem("Task", "Review Chemistry Notes", status = "Failed"),
+            StudyItem("Assignment", "Prepare for History Exam", subject = "History", status = "In Progress"),
+            StudyItem("Study Session", "Waste Management Lecture", subject = "Science", duration = "30 min", status = "Completed"),
+            StudyItem("Reminder", "Call Study Group", status = "In Progress"),
+            StudyItem("Goal", "Achieve 90% in Math Test", subject = "Math", status = "Failed")
+        )
+    }
 
     // Calculate completion rate: Percentage of items with status "Completed"
     val totalItems = weeklyStudyItems.size
