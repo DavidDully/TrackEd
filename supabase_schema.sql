@@ -1,7 +1,7 @@
 -- TrackEdbuilddb Supabase Database Schema
 -- Copy and paste this into the SQL Editor in your Supabase dashboard
--- User table (optional - if you want to track user accounts)
-CREATE TABLE IF NOT EXISTS user (
+-- Users table (optional - if you want to track user accounts)
+CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email TEXT UNIQUE NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -18,5 +18,5 @@ CREATE TABLE IF NOT EXISTS modules (
 );
 
 -- Create indexes for faster queries
-CREATE INDEX idx_user_email ON user(email);
+CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_modules_name ON modules(name);
