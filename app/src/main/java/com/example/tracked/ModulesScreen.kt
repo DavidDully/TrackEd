@@ -6,6 +6,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import com.example.tracked.ui.theme.PaleBlue
+import com.example.tracked.ui.theme.AccentBlue
+import com.example.tracked.ui.theme.SoftSurface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.ui.Modifier
@@ -37,14 +39,24 @@ fun ModulesScreen(navController: NavController) {
     Scaffold(
         topBar = { TopAppBar(title = { Text("Subjects") }) },
         containerColor = PaleBlue,
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+        snackbarHost = { hostState ->
+            SnackbarHost(hostState = hostState) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = AccentBlue.copy(alpha = 0.95f),
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.padding(12.dp)
+                )
+            }
+        }
     ) { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp)
+                .padding(20.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             // Top: subjects / modules area (about 2/3 of height)
             Column(modifier = Modifier
@@ -57,11 +69,12 @@ fun ModulesScreen(navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { navController.navigate("science") },
-                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                    shape = RoundedCornerShape(12.dp)
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                    shape = RoundedCornerShape(14.dp)
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text(text = "Science", style = MaterialTheme.typography.titleMedium)
+                    Column(modifier = Modifier.padding(20.dp)) {
+                        Text(text = "Science", style = MaterialTheme.typography.titleLarge)
+                        Spacer(modifier = Modifier.height(6.dp))
                         Text(text = "View Modules", style = MaterialTheme.typography.bodyMedium)
                     }
                 }
@@ -102,7 +115,14 @@ fun ModulesScreen(navController: NavController) {
                             .fillMaxWidth()
                             .padding(top = 8.dp),
                         placeholder = { Text("Add a reminder...") },
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(10.dp),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = AccentBlue,
+                            unfocusedBorderColor = AccentBlue.copy(alpha = 0.35f),
+                            containerColor = SoftSurface,
+                        ),
+                        singleLine = false,
+                        maxLines = 3
                     )
 
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
@@ -140,7 +160,12 @@ fun ModulesScreen(navController: NavController) {
                         trailingIcon = {
                             IconButton(onClick = { showDatePicker = true }) { Icon(Icons.Default.DateRange, contentDescription = "Pick date") }
                         },
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(10.dp),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = AccentBlue,
+                            unfocusedBorderColor = AccentBlue.copy(alpha = 0.35f),
+                            containerColor = SoftSurface,
+                        )
                     )
                 }
             }
