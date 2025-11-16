@@ -13,7 +13,8 @@ import androidx.navigation.NavController
 fun ModulesScreen(navController: NavController) {
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Subjects") }) }
+        topBar = { TopAppBar(title = { Text("Subjects") }) },
+        containerColor = Color(0xFFF5F5F5)  // Light gray background
     ) { padding ->
         Column(
             modifier = Modifier
