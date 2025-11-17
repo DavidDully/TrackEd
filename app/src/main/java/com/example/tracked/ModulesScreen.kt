@@ -1,4 +1,4 @@
- now package com.example.tracked
+package com.example.tracked
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

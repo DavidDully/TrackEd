@@ -11,12 +11,14 @@ data class NavigationData(
 data class ModuleData(
     val module_number: Int,
     val module_title: String,
-    val topics: List<TopicData>
+    val topics: List<ModuleTopicData>
 )
 
 @Serializable
-data class TopicData(
+data class ModuleTopicData(
     val topic_id: String,
     val title: String,
     val subtopics: List<String>
 )
+
+
