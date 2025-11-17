@@ -57,6 +57,8 @@ dependencies {
     // Navigation (kept as hardcoded since no libs equivalent; add to catalog if preferred)
     implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("io.coil-kt:coil-compose:2.7.0")
+    // Supabase
+    implementation(libs.supabase.kt)
 
     // Testing libraries
     testImplementation(libs.junit)
