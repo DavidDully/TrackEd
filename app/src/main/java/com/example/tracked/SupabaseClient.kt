@@ -71,4 +71,31 @@ interface SupabaseApi {
 
     @POST("modules")
     suspend fun createModule(@Body module: ScienceModuleData): ScienceModuleData
+
+    // Topics
+    @GET("topics")
+    suspend fun getTopics(): List<TopicData>
+
+    @POST("topics")
+    suspend fun createTopic(@Body topic: TopicData): TopicData
+
+    // Study Progress
+    @GET("study_progress")
+    suspend fun getStudyProgress(): List<StudyProgressData>
+
+    @POST("study_progress")
+    suspend fun createStudyProgress(@Body progress: StudyProgressData): StudyProgressData
+
+    @PATCH("study_progress")
+    suspend fun updateStudyProgress(@Query("id") id: String, @Body progress: StudyProgressData): StudyProgressData
+
+    // Reminders
+    @GET("reminders")
+    suspend fun getReminders(): List<ReminderData>
+
+    @POST("reminders")
+    suspend fun createReminder(@Body reminder: ReminderData): ReminderData
+
+    @DELETE("reminders")
+    suspend fun deleteReminder(@Query("id") id: String): Unit
 }
