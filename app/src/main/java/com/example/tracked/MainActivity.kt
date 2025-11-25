@@ -5,10 +5,13 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -63,10 +66,13 @@ fun StudyHabitTrackerApp() {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            composable("home") { HomeScreen() }
+            composable("home") { HomeScreen(navController) }
             composable("study") { StudyScreen() }
             composable("progress") { ProgressScreen() }
             composable("profile") { ProfileScreen() }
+            composable("module") { ModuleScreen(navController) }
+            composable("uploaded_files") { UploadedFilesScreen() }
+            composable("storage") { StorageScreen() }
         }
 
         if (showAddDialog) {
@@ -150,14 +156,14 @@ fun BottomNavigationBar(navController: NavHostController, onFabClick: () -> Unit
     }
 }
 
-
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.statusBars)
-            .padding(16.dp),
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
@@ -176,17 +182,26 @@ fun HomeScreen() {
                 .padding(bottom = 8.dp)
         )
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+        // LazyVerticalGrid should not be used inside a vertically scrollable Column.
+        // A simple Column with Rows is a better approach here.
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            item { BentoCard(title = "Today’s Tasks", data = "5", unit = "tasks") }
-            item { BentoCard(title = "Assignments", data = "3", unit = "remaining") }
-            item { BentoCard(title = "Study Sessions", data = "2", unit = "hours today") }
-            item { BentoCard(title = "Overall Progress", data = "75%", unit = "complete") }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                BentoCard(title = "Today’s Tasks", data = "5", unit = "tasks", modifier = Modifier.weight(1f))
+                BentoCard(title = "Assignments", data = "3", unit = "remaining", modifier = Modifier.weight(1f))
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                BentoCard(title = "Study Sessions", data = "2", unit = "hours today", modifier = Modifier.weight(1f))
+                BentoCard(title = "Overall Progress", data = "75%", unit = "complete", modifier = Modifier.weight(1f))
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -241,6 +256,45 @@ fun HomeScreen() {
                         textAlign = TextAlign.Start
                     )
                 }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Modules Card
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(140.dp)
+                .clickable { navController.navigate("module") },
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = "Modules",
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                    Text(
+                        text = "Access your course materials",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                Text(
+                    text = "📚",
+                    style = MaterialTheme.typography.headlineLarge,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
             }
         }
 
@@ -366,9 +420,9 @@ fun SemiCircularGauge(progress: Float, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BentoCard(title: String, data: String, unit: String) {
+fun BentoCard(title: String, data: String, unit: String, modifier: Modifier = Modifier) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(120.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
