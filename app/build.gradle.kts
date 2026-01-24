@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
 }
 
 android {
@@ -53,17 +54,14 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     // Navigation (kept as hardcoded since no libs equivalent; add to catalog if preferred)
     implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("io.coil-kt:coil-compose:2.7.0")
 
-    // Supabase API via Retrofit and OkHttp
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.json)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging)
-    implementation(libs.kotlinx.serialization)
+    // Supabase
+    implementation("io.github.jan-tennert.supabase:postgrest-kt:2.4.0")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.4.0")
+    implementation("io.github.jan-tennert.supabase:serializer-kotlinx:2.4.0")
 
     // Testing libraries
     testImplementation(libs.junit)
